@@ -1,11 +1,15 @@
 # Website Đặt Đồ Ăn Nhẹ A2-Coffee-HaUI
 
 ## 📌 Chủ đề
-Xây dựng website đặt đồ ăn nhẹ A2-Coffee-HaUI cho phép người dùng:
+Xây dựng website đặt đồ ăn nhẹ A2-Coffee-HaUI cho phép:
+1. người dùng:
 - Đăng ký, đăng nhập.
 - Xem danh mục và sản phẩm.
 - Thêm món ăn vào giỏ hàng.
 - Đặt hàng và xem lịch sử đơn hàng.
+2. Admin
+- Quản lý món ăn và danh mục (CRUD).
+- Quản lý đơn hàng (xem, cập nhật trạng thái).
 
 ## 👨‍💻 Thành viên nhóm
 1. Nguyễn Tuấn Anh – Backend Developer  
