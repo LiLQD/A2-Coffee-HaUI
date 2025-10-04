@@ -12,11 +12,11 @@ Xây dựng website đặt đồ ăn nhẹ A2-Coffee-HaUI cho phép:
 - Quản lý đơn hàng (xem, cập nhật trạng thái).
 
 ## 👨‍💻 Thành viên nhóm
-1. Nguyễn Tuấn Anh – Backend Developer  
-2. Nguyễn Thành Công – Database Designer
-3. Lưu Quang Dũng – Backend Developer 
-4. Bùi Minh Hiếu – UI/UX Designer  
-5. Phan Duy Hoàng – Frontend Developer
+1. Nguyễn Tuấn Anh 
+2. Nguyễn Thành Công 
+3. Lưu Quang Dũng 
+4. Bùi Minh Hiếu 
+5. Phan Duy Hoàng 
 
 ## 🛠 Công nghệ sử dụng
 - **Frontend**: React + Vite  
