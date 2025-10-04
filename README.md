@@ -2,12 +2,12 @@
 
 ## 📌 Chủ đề
 Xây dựng website đặt đồ ăn nhẹ A2-Coffee-HaUI cho phép:
-1. người dùng:
+1. User:
 - Đăng ký, đăng nhập.
 - Xem danh mục và sản phẩm.
 - Thêm món ăn vào giỏ hàng.
 - Đặt hàng và xem lịch sử đơn hàng.
-2. Admin
+2. Admin:
 - Quản lý món ăn và danh mục (CRUD).
 - Quản lý đơn hàng (xem, cập nhật trạng thái).
 
