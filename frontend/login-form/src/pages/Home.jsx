@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import logo from "../assets/haui-logo.png";
-import { getItems } from "../utils/menuStore"; // đọc dữ liệu từ localStorage (đã tạo ở bước trước)
+import { getItems } from "../utils/menuStore"; 
+import { addToCart } from "../utils/cartStore";
 
 const BASE_CATEGORIES = ["Tất cả", "Đồ ăn", "Đồ uống", "Tráng miệng"];
 const MORE_CATEGORIES = ["Pizza/Burger", "Món lẩu", "Sushi", "Mì phở", "Cơm hộp"];
@@ -16,6 +17,11 @@ export default function Home() {
   const [search, setSearch] = useState("");       // từ khóa tìm kiếm
   const [moreOpen, setMoreOpen] = useState(false);
   const moreRef = useRef(null);
+  const [cartCount, setCartCount] = useState(0);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [qty, setQty] = useState(1);
+
+
 
   useEffect(() => {
     setItems(getItems());
@@ -85,10 +91,16 @@ export default function Home() {
         </div>
 
         <div className="header-right">
+          <div className="cart-container" onClick={() => navigate("/cart")}>
+            🛒
+            {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
+          </div>
+
           <button className="icon-btn" title="Thông báo">🔔</button>
           <div className="user-account" title="Tài khoản"><span>A</span></div>
           <button className="logout-btn" onClick={handleLogout}>Đăng xuất</button>
         </div>
+
       </header>
 
       {/* ---------- NAV (danh mục) ---------- */}
@@ -148,11 +160,53 @@ export default function Home() {
                   <span className="price">{formatVND(it.price)}</span>
                   <span className="category">{it.category}</span>
                 </div>
+                <button
+  className="order-btn"
+  onClick={() => {
+    setSelectedItem(it);
+    setQty(1);
+  }}
+>
+  🛒 Đặt hàng
+</button>
+
+
               </article>
             ))}
           </section>
+          
         )}
       </main>
+
+
+{/* MODAL CHỌN SỐ LƯỢNG */}
+{selectedItem && (
+  <div className="qty-modal">
+    <div className="qty-box">
+      <h3>{selectedItem.name}</h3>
+
+      <div className="qty-control">
+        <button onClick={() => setQty(q => Math.max(1, q - 1))}>−</button>
+        <span>{qty}</span>
+        <button onClick={() => setQty(q => q + 1)}>+</button>
+      </div>
+
+      <button
+        className="add-btn"
+        onClick={() => {
+          addToCart({ ...selectedItem }, qty);
+          setSelectedItem(null);
+        }}
+      >
+        Thêm vào giỏ hàng
+      </button>
+
+      <button className="close-btn" onClick={() => setSelectedItem(null)}>Hủy</button>
+    </div>
+  </div>
+)}
+
     </div>
   );
+  
 }
