@@ -68,7 +68,7 @@
   opacity: 0.8;
 }
 
-.user-account {
+/* .user-account {
   background: white;
   color: #4c6ef5;
   font-weight: 600;
@@ -79,7 +79,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-}
+} */
 
 .logout-btn {
   background: #e03131;

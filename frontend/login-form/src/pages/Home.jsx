@@ -98,7 +98,7 @@ export default function Home() {
 
           <button className="icon-btn" title="Lịch sử đơn hàng" onClick={() => navigate("/order-history")}> 🧾 </button>
 
-          <div className="user-account" title="Tài khoản"><span>A</span></div>
+          {/* <div className="user-account" title="Tài khoản"><span>A</span></div> */}
           <button className="logout-btn" onClick={handleLogout}>Đăng xuất</button>
         </div>
 
