@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";  // Thêm useNavigate
 import "./Checkout.css";
+import { getCart, clearCart } from "../utils/cartStore";
+import { addOrder } from "../utils/orderHistoryStore";
 
 export default function Checkout() {
   const [info, setInfo] = useState({
@@ -8,24 +10,42 @@ export default function Checkout() {
     email: "",
     phone: "",
     address: "",
-    time: "",        // để trống, người dùng sẽ tự ghi text
+    time: "",        
     note: "",
     payment: "cod"
   });
 
-  const navigate = useNavigate(); // Thêm để có thể điều hướng
+  const navigate = useNavigate(); 
 
   const handleChange = (e) => {
     setInfo({ ...info, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = () => {
-    alert("Đặt hàng thành công!\n\n" + JSON.stringify(info, null, 2));
+  const cart = getCart();
+
+  if (cart.length === 0) {
+    alert("Giỏ hàng trống!");
+    return;
+  }
+
+  const order = {
+    id: "OD-" + Date.now(),
+    items: cart,
+    info,
+    total: cart.reduce((t, it) => t + it.qty * it.price, 0),
+    date: new Date().toLocaleString("vi-VN")
   };
+
+  addOrder(order);    // Lưu vào lịch sử
+  clearCart();        // Xóa giỏ hàng sau khi thanh toán
+
+  alert("Đặt hàng thành công!");
+  navigate("/order-history");
+};
 
   return (
     <div className="checkout-container">
-      {/* Nút quay lại giỏ hàng – giờ đã hoạt động */}
       <button className="back-btn" onClick={() => navigate("/cart")}>
         Quay lại giỏ hàng
       </button>
@@ -45,7 +65,6 @@ export default function Checkout() {
         <label>Địa chỉ giao hàng</label>
         <input name="address" value={info.address} onChange={handleChange} placeholder="Số nhà, đường, phường/xã..." />
 
-        {/* Thay datetime-local bằng input text bình thường */}
         <label>Thời gian nhận hàng (ghi chú)</label>
         <input
           name="time"

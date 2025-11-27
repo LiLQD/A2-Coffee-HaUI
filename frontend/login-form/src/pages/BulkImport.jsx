@@ -77,46 +77,110 @@ export default function BulkImport() {
       )}
 
       {/* ---- DANH SÁCH HIỆN CÓ ---- */}
-      <h3>Danh sách món hiện tại</h3>
-      <table className="import-table">
-        <thead>
-          <tr>
-            <th>Tên</th><th>Giá</th><th>Danh mục</th><th>Ảnh</th><th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {getItems().map(item => (
-            <tr key={item.id}>
-              <td>{item.name}</td>
-              <td>{item.price}</td>
-              <td>{item.category}</td>
-              <td>{item.imageUrl ? "✅" : "⛔"}</td>
-              <td className="table-actions">
-                <button className="btn-edit" onClick={() => setEditing(item)}>Sửa</button>
-                <button className="btn-delete" onClick={() => removeItem(item.id)}>Xoá</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+<h3>Danh sách món hiện tại</h3>
+<table className="import-table">
+  <thead>
+    <tr>
+      <th>Tên</th>
+      <th>Giá</th>
+      <th>Danh mục</th>
+      <th>Trạng thái</th>   {/* <-- THÊM CỘT MỚI */}
+      <th>Ảnh</th>
+      <th></th>
+    </tr>
+  </thead>
 
-      {/* ---- MODAL SỬA ---- */}
-      {editing && (
-        <div className="modal">
-          <div className="modal-content">
-            <h3>Sửa món</h3>
-            <input value={editing.name} onChange={(e) => setEditing({ ...editing, name: e.target.value })}/>
-            <input value={editing.price} type="number" onChange={(e) => setEditing({ ...editing, price: e.target.value })}/>
-            <textarea value={editing.description} onChange={(e) => setEditing({ ...editing, description: e.target.value })}/>
-            <input value={editing.imageUrl} onChange={(e) => setEditing({ ...editing, imageUrl: e.target.value })}/>
+  <tbody>
+    {getItems().map(item => (
+      <tr key={item.id}>
+        <td>{item.name}</td>
+        <td>{item.price}</td>
+        <td>{item.category}</td>
 
-            <div className="modal-actions">
-              <button className="btn-close" onClick={() => setEditing(null)}>Huỷ</button>
-              <button className="btn-save" onClick={saveEdit}>Lưu</button>
-            </div>
-          </div>
-        </div>
-      )}
+        {/* === HIỂN THỊ AVAILABLE === */}
+        <td style={{ fontWeight: "600", color: item.available ? "green" : "red" }}>
+          {item.available ? "Còn hàng" : "Hết hàng"}
+        </td>
+
+        <td>{item.imageUrl ? "✅" : "⛔"}</td>
+
+        <td className="table-actions">
+          <button className="btn-edit" onClick={() => setEditing(item)}>Sửa</button>
+          <button className="btn-delete" onClick={() => removeItem(item.id)}>Xoá</button>
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+{/* ---- MODAL SỬA ---- */}
+{editing && (
+  <div className="modal">
+    <div className="modal-content">
+      <h3>Sửa món</h3>
+
+      {/* Name */}
+      <input 
+        value={editing.name} 
+        onChange={(e) => setEditing({ ...editing, name: e.target.value })} 
+        placeholder="Tên món"
+      />
+
+      {/* Price */}
+      <input 
+        value={editing.price} 
+        type="number" 
+        onChange={(e) => setEditing({ ...editing, price: Number(e.target.value) })} 
+        placeholder="Giá"
+      />
+
+      {/* Category (select để sửa đẹp hơn) */}
+      <select
+        value={editing.category}
+        onChange={(e) => setEditing({ ...editing, category: e.target.value })}
+      >
+        <option value="Đồ ăn">Đồ ăn</option>
+        <option value="Đồ uống">Đồ uống</option>
+        <option value="Tráng miệng">Tráng miệng</option>
+        <option value="Pizza/Burger">Pizza/Burger</option>
+        <option value="Món lẩu">Món lẩu</option>
+        <option value="Sushi">Sushi</option>
+        <option value="Mì phở">Mì phở</option>
+        <option value="Cơm hộp">Cơm hộp</option>
+      </select>
+
+      {/* Description */}
+      <textarea
+        value={editing.description}
+        onChange={(e) => setEditing({ ...editing, description: e.target.value })}
+        placeholder="Mô tả món"
+      />
+
+      {/* imageUrl */}
+      <input
+        value={editing.imageUrl}
+        onChange={(e) => setEditing({ ...editing, imageUrl: e.target.value })}
+        placeholder="Link ảnh"
+      />
+
+      {/* === AVAILABLE === */}
+      <select
+        value={editing.available ? "true" : "false"}
+        onChange={(e) =>
+          setEditing({ ...editing, available: e.target.value === "true" })
+        }
+      >
+        <option value="true">Còn hàng</option>
+        <option value="false">Hết hàng</option>
+      </select>
+
+      <div className="modal-actions">
+        <button className="btn-close" onClick={() => setEditing(null)}>Huỷ</button>
+        <button className="btn-save" onClick={saveEdit}>Lưu</button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }

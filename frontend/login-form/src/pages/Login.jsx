@@ -6,20 +6,24 @@ import hauiLogo from "../assets/haui-logo.png";
 export default function Login() {
   const navigate = useNavigate();
 
-  // xử lý khi nhấn Đăng nhập
   const handleLogin = (e) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const username = form.username.value.trim();
-    const password = form.password.value.trim();
+  e.preventDefault();
 
-    // Kiểm tra tài khoản tạm thời (demo)
-    if (username === "admin" && password === "123") {
-      navigate("/home");
-    } else {
-      alert("Sai tài khoản hoặc mật khẩu!");
-    }
-  };
+  const form = e.currentTarget;
+  const username = form.username.value.trim();
+  const password = form.password.value.trim();
+
+  const users = getUsers();
+  const found = users.find(u => u.username === username && u.password === password);
+
+  if (found) {
+    localStorage.setItem("auth_token", "OK"); // đánh dấu đã login
+    navigate("/home");
+  } else {
+    alert("Sai tài khoản hoặc mật khẩu!");
+  }
+};
+  
 
   return (
     <div className="app-grid">
@@ -52,7 +56,7 @@ export default function Login() {
           </div>
 
           <button type="submit">Đăng nhập</button>
-          <button className="register" type="button">
+          <button className="register" type="button" onClick={() => navigate("/register")}>
             Đăng ký
           </button>
         </form>
